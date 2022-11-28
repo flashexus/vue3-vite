@@ -10,6 +10,7 @@ import { useAttrs } from 'vue';
 import { ref,reactive,computed, watch, watchEffect } from 'vue'
 
 import Input from './Input.vue';
+import { useStoreCounter } from '../stores/counter'
 
 
 const attrs = useAttrs()
@@ -43,6 +44,27 @@ const changeName = () => {
   emit('changeNameEvent',username.value)
 }
 
+//pinia 
+const counter = useStoreCounter()
+//patchを使うと直接stateに値を代入できる
+const patch = () =>{
+  counter.$patch({
+    count:100,
+    user: {
+      name: 'Jane Doe'
+    }
+  })
+} 
+
+//stateを丸ごと置き換えることもできる
+const replace = () => {
+  counter.$state = { 
+    count:100,
+    count2:200,
+  }
+
+}
+
 </script>
 
 <template>
@@ -59,5 +81,12 @@ const changeName = () => {
     <Input :model-value="username" disabled/>
     <Input :model-value="username" @update:modalvalue="username = $event"/>
     <button @click="changeName">Appコンポーネントへ通知</button>
+
+    <h2> Hello Pinia</h2>
+    <p>カウント：{{ counter.count }}</p>
+    <p>ダブルカウント：{{ counter.dobleCount }}</p>
+    <button @click="patch">Patch</button>
+    <button @click="counter.$reset">カウント クリア</button>
+    <button @click="replace">カウント リプレイス</button>
   </div>
 </template>

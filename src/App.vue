@@ -5,6 +5,8 @@ import User from './components/User.vue';
 import Tokyo from './components/Tokyo.vue';
 import Kyoto from './components/Kyoto.vue';
 import CompA  from './components/CompA.vue';
+import  { useStoreCounter  } from './stores/counter';
+
 
 const users = [
   { id: 1, name: 'John Doe', email: 'john@test.com', admin: true },
@@ -91,6 +93,10 @@ const addCount = () => {
 }
 provide('count',{ count,addCount } )
 
+// Pinia レッスン
+const counter = useStoreCounter()
+
+
 </script>
 
 <template>
@@ -146,4 +152,10 @@ provide('count',{ count,addCount } )
   <h1>Provide/Injectの使い方</h1>
   <CompA />
 
+  <!--Piniaレッスン  -->
+  <h1>Pinia 入門</h1>
+  <p>Count:{{ counter.count}}</p>
+  <div>
+    <button @click="counter.increment">Up</button>
+  </div>
 </template>
